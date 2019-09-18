@@ -2,10 +2,20 @@ from fractions import Fraction
 
 class FractionCalculator:
     def __init__(self, numerator, denominator):
-        self.numerator=numerator
-        if denominator==0:
+
+        if(not isinstance(numerator,str) and not isinstance(numerator,int)):
+            raise ValueError("Please ensure that the input is an integer!")
+        
+        try:
+            self.numerator=int(numerator)
+            self.denominator=int(denominator)
+
+        except ValueError:
+            raise ValueError("Please ensure that the input is an integer!")
+
+        if self.denominator==0:
             raise ValueError("Denominator cannot be zero!")
-        self.denominator=denominator
+        
 
     def __str__(self):
         return str(self.numerator)+"/"+str(self.denominator)
@@ -40,15 +50,11 @@ class FractionCalculator:
     def main():
         print("Welcome to the fraction calculator!")
 
-        try:
-            num1=int(input("Fraction 1 numerator:"))
-            denom1=int(input("Fraction 1 denominator:"))
-            num2=int(input("Fraction 2 numerator:"))
-            denom2=int(input("Fraction 2 denominator:"))
+        num1=input("Fraction 1 numerator:")
+        denom1=input("Fraction 1 denominator:")
+        num2=input("Fraction 2 numerator:")
+        denom2=input("Fraction 2 denominator:")
 
-        except ValueError:
-            raise ValueError("Please ensure that the input is an integer!")
-        
         fraction1= FractionCalculator(num1,denom1)
         fraction2= FractionCalculator(num2,denom2)
 
