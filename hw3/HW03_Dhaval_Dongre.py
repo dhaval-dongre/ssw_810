@@ -13,9 +13,17 @@ class Fraction:
         self.numerator=numerator
         self.denominator=denominator
 
+        self.checkNegFraction(self.numerator,self.denominator)
+
     """Returns the fraction in string format"""
     def __str__(self):
         return str(self.numerator)+"/"+str(self.denominator)
+
+    """rectifies the -ve val in the fraction"""
+    def checkNegFraction(self, numerator, denominator):
+        if denominator<0:
+            self.numerator=numerator*-1
+            self.denominator=denominator*-1
 
     """Checks whether two fractions are equal or not"""
     def __eq__(self,other):
@@ -48,14 +56,12 @@ class Fraction:
         num=self.numerator*other.denominator
         return Fraction(num,denom)
 
-    """ Ensures that the numerator and denominator are postitive integers"""
+    """ Ensures that the numerator and denominator are integers"""
     def checkInput(self, number):
 
         if(not isinstance(number,str) and not isinstance(number,int)):
             raise ValueError("Please ensure that the input is an integer!")
 
-        if number<0:
-            raise ValueError('Please enter a positive number!')
 
     """ checks whether 2 fractions are unequal or not"""
     def __ne__(self, other): 
@@ -97,6 +103,12 @@ class TestFraction(unittest.TestCase):
         print(f"{f1} + {f2} is {f3} [10/8]") 
         self.assertEqual(str(f3),'10/8',f"{f1} + {f2} is {str(f3)} [10/8]")
         
+        f1=Fraction(1,2)
+        f2=Fraction(3,4)
+        f3=f1+f2
+        print(f"{f1} + {f2} is {f3} [10/8] not [-1/2]") 
+        self.assertNotEqual(str(f3),'-1/2',f"{f1} + {f2} is {str(f3)} not [-1/2]")
+
     """ Unit test for validating subtraction of two fractions"""
     def testSubstraction(self): 
         f1=Fraction(4,4)
@@ -105,6 +117,12 @@ class TestFraction(unittest.TestCase):
         print(f"{f1} - {f2} is {f3} [4/8]") 
         self.assertEqual(str(f3),"4/8",f"{f1} - {f2} is {f3} [4/8]")
 
+        f1=Fraction(4,4)
+        f2=Fraction(1,2)
+        f3=f1-f2
+        print(f"{f1} - {f2} is {f3} [4/8]") 
+        self.assertNotEqual(str(f3),"2/8",f"{f1} - {f2} is {f3} [4/8] not [2/8]")
+    
     """ Unit test for validating multiplication of two fractions"""
     def testMultiplication(self): 
         f1=Fraction(1,2)
@@ -154,6 +172,11 @@ class TestFraction(unittest.TestCase):
         print(f"\t\t\t\t{f1} > {f2} is {f1>(f2)} [True]") 
         self.assertEqual(f1>(f2),True,f"{f1} > {f2} is {f1>(f2)} [True]")
 
+        f1=Fraction(1,2)
+        f2=Fraction(1,3)
+        print(f"\t\t\t\t{f1} > {f2} is {f1>(f2)} [True]") 
+        self.assertNotEqual(f1>(f2),False,f"{f1} > {f2} is {f1>(f2)} [True] not [False]")
+
     """ Unit test for validating whether the first fraction is greater than or equal to the second"""
     def testGreaterThanEqual(self):
         f1=Fraction(1,2)
@@ -166,6 +189,11 @@ class TestFraction(unittest.TestCase):
         print(f"\t\t\t\t{f1} >= {f2} is {f1>=(f2)} [True]") 
         self.assertEqual(f1>=(f2),True,f"{f1} >= {f2} is {f1>=(f2)} [True]")
 
+    def testNotEquals(self):
+        f1=Fraction(1,2)
+        f2=Fraction(1,-2)
+        print(f"{f1} == {f2} is {f1==(f2)} [True]") 
+        self.assertNotEqual(f1==(f2),True,f"{f1} == {f2} is {f1==(f2)} [False]")
 
 if __name__ == '__main__':
     print('Running unit tests')
